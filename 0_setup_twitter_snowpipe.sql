@@ -60,14 +60,13 @@ Check files in the bucket
 Check that the pipe is running
 *********************************************************************************/
 
--- rm @twitter_db.public.tweets;
 list @twitter_db.public.tweets;
 select $1 from @twitter_db.public.tweets;
 
 select system$pipe_status('twitter_db.public.tweetpipe');
 
 /*********************************************************************************
-Create a flat view to be used in your favourite BI tool
+Create a flat view to be used in Tableau
 *********************************************************************************/
 
 create or replace view tweets_bi as
