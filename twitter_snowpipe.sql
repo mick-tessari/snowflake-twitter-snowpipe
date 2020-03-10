@@ -71,7 +71,8 @@ Create a flat view to be used in your favourite BI tool
 *********************************************************************************/
 
 create or replace view tweets_bi as
-    select tweet:created_at::timestamp as created_at
+    select tweet:keyword::string as keyword
+    ,tweet:created_at::timestamp as created_at
     ,tweet:id::int as id
     ,tweet:lang::string as lang
     ,regexp_substr(tweet:source::string,'<a.*?>(.+?)</a>',1,1,'e') as source
