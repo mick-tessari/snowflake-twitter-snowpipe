@@ -8,7 +8,7 @@ Check that the pipe is running
 *********************************************************************************/
 
 list @twitter_db.public.tweets;
-select $1 from @twitter_db.public.tweets;
+select $1 from @twitter_db.public.tweets limit 10;
 
 show pipes;
 select system$pipe_status('twitter_db.public.tweetpipe');
