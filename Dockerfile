@@ -2,18 +2,16 @@ FROM python:slim
 RUN pip install -U pip
 RUN pip install --no-cache-dir boto3
 RUN pip install --no-cache-dir awscli
+#RUN pip install -Iv --no-cache-dir tweepy==3.10.0
 RUN pip install --no-cache-dir tweepy
 RUN pip install --no-cache-dir datetime
 
 # Insert your Twitter Developer app keys and tokens here
-ENV AWS_Access_Key_ID="xxxxxxxxxxxxxxxxxxxx"\
-    AWS_Secret_Access_Key="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"\
-    consumer_key="xxxxxxxxxxxxxxxxxxxxxxxxx"\
-    consumer_secret="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"\
-    access_token="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"\
-    access_token_secret="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"\
-    bucket="my-twitter-bucket"\
-    keyword="MondayMotivation"
+ENV AWS_Access_Key_ID=""\
+    AWS_Secret_Access_Key=""\
+    bucket="twitter-pipe-demo"\
+    keyword=""\
+    twitter_bearer_token=""
 
 ENV PYTHONUNBUFFERED=1
 
