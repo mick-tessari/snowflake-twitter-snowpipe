@@ -58,39 +58,38 @@ def consumer():
             os.remove(filename)
 
 
-class JSONStreamProducer(tweepy.StreamListener):
-
+class TweetPrinter(tweepy.StreamingClient):
     def on_data(self, data):
         pipeline.put(data)
         if not event.is_set():
             return True
         else:
             return False
-
+    
     def on_error(self, status):
         print("Error: " + str(status))
 
 
 if __name__ == "__main__":
-    consumer_key = sys.argv[1]
-    consumer_secret = sys.argv[2]
-    access_token = sys.argv[3]
-    access_token_secret = sys.argv[4]
-    bucket = sys.argv[5]
-    keyword = "#" + sys.argv[6]
-
-    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-    auth.set_access_token(access_token, access_token_secret)
+    bucket = sys.argv[1]
+    keyword = "#" + sys.argv[2]
+    bearer_token = sys.argv[3]
 
     pipeline = queue.Queue()
     event = threading.Event()
-
-    myListener = JSONStreamProducer()
-    myStream = tweepy.Stream(auth=auth, listener=myListener)
-
+    
+    tweet_queue = queue.Queue()
     t = threading.Thread(target=consumer)
 
-    myStream.filter(track=[keyword], is_async=True)
+    tweet_printer = TweetPrinter(bearer_token)
+    tweet_printer.add_rules([tweepy.StreamRule(keyword)])
+
+    #expansions = ['author_id']
+    tweet_fields= ['author_id', 'created_at', 'text', 'lang', 'public_metrics']
+    #user_fields=['username', 'verified']
+
+    #tweet_printer.filter(threaded=True,expansions=expansions, tweet_fields=tweet_fields, user_fields=user_fields)
+    tweet_printer.filter(threaded=True, tweet_fields=tweet_fields)
     t.start()
 
     time.sleep(900)
